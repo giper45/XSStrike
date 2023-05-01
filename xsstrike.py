@@ -58,6 +58,8 @@ parser.add_argument('--path', help='inject payloads in the path',
 parser.add_argument(
     '--seeds', help='load crawling seeds from a file', dest='args_seeds')
 parser.add_argument(
+    '-c', '--context', help='Discover the context instead of scanning', dest='detect_context', nargs='?', const=True)
+parser.add_argument(
     '-f', '--file', help='load payloads from a file', dest='args_file')
 parser.add_argument('-l', '--level', help='level of crawling',
                     dest='level', type=int, default=2)
@@ -98,6 +100,7 @@ args_file = args.args_file
 args_seeds = args.args_seeds
 level = args.level
 add_headers = args.add_headers
+detect_context = args.detect_context
 threadCount = args.threadCount
 delay = args.delay
 skip = args.skip
@@ -122,6 +125,7 @@ from core.utils import extractHeaders, reader, converter
 from modes.bruteforcer import bruteforcer
 from modes.crawl import crawl
 from modes.scan import scan
+from modes.context import context
 from modes.singleFuzz import singleFuzz
 
 if type(args.add_headers) == bool:
@@ -170,6 +174,8 @@ if fuzz:
 elif not recursive and not args_seeds:
     if args_file:
         bruteforcer(target, paramData, payloadList, encoding, headers, delay, timeout)
+    elif detect_context: 
+        context(target, paramData, encoding, headers, delay, timeout, skipDOM, skip)
     else:
         scan(target, paramData, encoding, headers, delay, timeout, skipDOM, skip)
 else:
