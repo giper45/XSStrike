@@ -1,4 +1,5 @@
 import copy
+import json
 import re
 from urllib.parse import urlparse, quote, unquote
 
@@ -72,7 +73,7 @@ def context(target, paramData, encoding, headers, delay, timeout, skipDOM, skip)
             continue
         else:
             logger.info('Reflections found: %i' % len(occurences))
-        print(occurences)
+        print(json.dumps(occurences))
 
         # logger.run('Analysing reflections')
         # efficiencies = filterChecker(
